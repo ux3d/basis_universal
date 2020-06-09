@@ -42,7 +42,6 @@ if (NOT MSVC)
    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} ${GCC_COMPILE_FLAGS} -D_DEBUG")
 endif()
 
-# TODO: evaluate which headers need to be public
 set(BASISU_INC_LIST
     transcoder/basisu.h
     transcoder/basisu_global_selector_palette.h
