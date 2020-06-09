@@ -50,6 +50,7 @@ set(BASISU_INC_LIST
     transcoder/basisu_file_headers.h
     transcoder/basisu_transcoder.h
     transcoder/basisu_global_selector_cb.h
+    transcoder/basisu_transcoder_internal.h
     )
 
 set(BASISU_SRC_LIST ${COMMON_SRC_LIST} 
