@@ -3,6 +3,7 @@ project(basisu)
 cmake_minimum_required(VERSION 3.0)
 option(BUILD_X64 "build 64-bit" TRUE)
 option(STATIC "static linking" FALSE)
+option(BUILD_AS_LIBRARY "build basisu as a library instead of as an executable" FALSE)
 
 message("Initial BUILD_X64=${BUILD_X64}")
 message("Initial CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}")
@@ -61,7 +62,6 @@ set(BASISU_SRC_LIST ${COMMON_SRC_LIST}
 	basisu_resampler.cpp
 	basisu_resample_filters.cpp
 	basisu_ssim.cpp
-	basisu_tool.cpp
 	basisu_astc_decomp.cpp
 	basisu_uastc_enc.cpp
 	basisu_bc7enc.cpp
@@ -71,6 +71,11 @@ set(BASISU_SRC_LIST ${COMMON_SRC_LIST}
 	transcoder/basisu_transcoder.cpp
 	)
 
+set(BASISU_TOOL_SRC_LIST ${BASISU_SRC_LIST}
+    basisu_tool.cpp
+    )
+
+
 if (APPLE)
    set(BIN_DIRECTORY "bin_osx")
 else()
@@ -79,21 +84,17 @@ endif()
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/${BIN_DIRECTORY})
 
-add_executable(basisu ${BASISU_SRC_LIST})
+if(NOT BUILD_AS_LIBRARY)
+    add_executable(basisu ${BASISU_TOOL_SRC_LIST})
+else()
+    add_library(basisu ${BASISU_SRC_LIST})
+endif()
 
 if (NOT MSVC)
    target_link_libraries(basisu m pthread)
 endif()
 
-install(TARGETS basisu DESTINATION bin)
 
-if (UNIX)
-   if (CMAKE_BUILD_TYPE STREQUAL Release)
-       if (APPLE)
-	      add_custom_command(TARGET basisu POST_BUILD COMMAND strip -X -x ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/basisu)
-       else()
-           add_custom_command(TARGET basisu POST_BUILD COMMAND strip -g -X -x ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/basisu)
-       endif()
-   endif()
-endif()
+install(TARGETS basisu)
 
+set_target_properties(basisu PROPERTIES LINK_FLAGS_RELEASE -s)
