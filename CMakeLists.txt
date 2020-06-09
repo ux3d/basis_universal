@@ -6,13 +6,6 @@ option(STATIC "static linking" FALSE)
 option(BUILD_AS_LIBRARY "build basisu as a library instead of as an executable" FALSE)
 
 message("Initial BUILD_X64=${BUILD_X64}")
-message("Initial CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}")
-
-if( NOT CMAKE_BUILD_TYPE )
-  set( CMAKE_BUILD_TYPE Release )
-endif( NOT CMAKE_BUILD_TYPE )
-
-message( ${PROJECT_NAME} " build type: " ${CMAKE_BUILD_TYPE} )
 
 if (BUILD_X64)
 	message("Building 64-bit")
