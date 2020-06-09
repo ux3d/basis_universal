@@ -49,6 +49,16 @@ if (NOT MSVC)
    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} ${GCC_COMPILE_FLAGS} -D_DEBUG")
 endif()
 
+# TODO: evaluate which headers need to be public
+set(BASISU_INC_LIST
+    transcoder/basisu.h
+    transcoder/basisu_global_selector_palette.h
+    transcoder/basisu_transcoder_uastc.h
+    transcoder/basisu_file_headers.h
+    transcoder/basisu_transcoder.h
+    transcoder/basisu_global_selector_cb.h
+    )
+
 set(BASISU_SRC_LIST ${COMMON_SRC_LIST} 
 	basisu_backend.cpp
 	basisu_basis_file.cpp
@@ -88,12 +98,12 @@ if(NOT BUILD_AS_LIBRARY)
     add_executable(basisu ${BASISU_TOOL_SRC_LIST})
 else()
     add_library(basisu ${BASISU_SRC_LIST})
+    set_target_properties(basisu PROPERTIES PUBLIC_HEADER "${BASISU_INC_LIST}")
 endif()
 
 if (NOT MSVC)
    target_link_libraries(basisu m pthread)
 endif()
-
 
 install(TARGETS basisu)
 
