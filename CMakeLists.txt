@@ -100,4 +100,7 @@ endif()
 
 install(TARGETS basisu)
 
-set_target_properties(basisu PROPERTIES LINK_FLAGS_RELEASE -s)
+if(NOT MSVC)
+    # strip the output
+    set_target_properties(basisu PROPERTIES LINK_FLAGS_RELEASE -s)
+endif()
