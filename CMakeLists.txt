@@ -4,14 +4,24 @@ cmake_minimum_required(VERSION 3.0)
 option(BUILD_X64 "build 64-bit" TRUE)
 option(STATIC "static linking" FALSE)
 option(BUILD_AS_LIBRARY "build basisu as a library instead of as an executable" FALSE)
+option(NO_ITERATOR_DEBUG_LEVEL "if false, set _SECURE_SCL and _ITERATOR_DEBUG_LEVEL to 1 on MSVC builds. This can cause problems when linking debug builds" TRUE)
 
 message("Initial BUILD_X64=${BUILD_X64}")
+
 
 if (BUILD_X64)
 	message("Building 64-bit")
 else()
 	message("Building 32-bit")
 endif(BUILD_X64)
+
+# set the debug level for msvc
+if(NO_ITERATOR_DEBUG_LEVEL)
+    # if defined, the _ITERATOR_DEBUG_LEVEL for debug builds is set to 1 instead of 2.
+    # libraries with differing ITERATOR_DEBUG_LEVELS can't be linked, therefore this setting
+    # might break linkage in MSVC debug builds
+    add_definitions(-DBASISU_NO_ITERATOR_DEBUG_LEVEL)
+endif()
 
 if (NOT MSVC)
    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g")
