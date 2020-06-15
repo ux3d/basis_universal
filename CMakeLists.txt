@@ -117,7 +117,6 @@ if(NOT BUILD_AS_LIBRARY)
     add_executable(basisu ${BASISU_TOOL_SRC_LIST})
 else()
     add_library(basisu ${BASISU_SRC_LIST})
-    set_target_properties(basisu PROPERTIES PUBLIC_HEADER "${BASISU_INC_LIST}")
 endif()
 
 if (NOT MSVC)
@@ -125,6 +124,14 @@ if (NOT MSVC)
 endif()
 
 install(TARGETS basisu)
+
+if(BUILD_AS_LIBRARY)
+    # install the headers with their subdirectories being kept intact
+    foreach (file ${BASISU_INC_LIST})
+        get_filename_component(dir ${file} DIRECTORY)
+        install(FILES ${file} DESTINATION include/${dir})
+    endforeach()
+endif()
 
 if(NOT MSVC)
     # strip the output
