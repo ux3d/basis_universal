@@ -53,6 +53,7 @@ if (NOT MSVC)
 endif()
 
 set(BASISU_INC_LIST
+    basisu_comp.h
     transcoder/basisu.h
     transcoder/basisu_global_selector_palette.h
     transcoder/basisu_transcoder_uastc.h
