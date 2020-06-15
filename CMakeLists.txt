@@ -53,7 +53,22 @@ if (NOT MSVC)
 endif()
 
 set(BASISU_INC_LIST
+    basisu_astc_decomp.h
+    basisu_backend.h
+    basisu_basis_file.h
+    basisu_bc7enc.h
     basisu_comp.h
+    basisu_enc.h
+    basisu_etc.h
+    basisu_frontend.h
+    basisu_global_selector_palette_helpers.h
+    basisu_gpu_texture.h
+    basisu_miniz.h
+    basisu_pvrtc1_4.h
+    basisu_resampler.h
+    basisu_resampler_filters.h
+    basisu_ssim.h
+    basisu_uastc_enc.h
     transcoder/basisu.h
     transcoder/basisu_global_selector_palette.h
     transcoder/basisu_transcoder_uastc.h
